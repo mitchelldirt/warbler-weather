@@ -1,27 +1,30 @@
-# WarblerWeather
+# Warbler Weather
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.3.
+## Technologies
 
-## Development server
+- Angular 17
+- OpenWeather (weather)
+- Weather API (alternative weather)
+- Open-Mateo (alternative weather)
+- https://www.weather.gov/documentation/services-web-api (alerts)
+- ngx-translate (localization)
+- Cypress (e2e testing)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Color Palette
 
-## Code scaffolding
+Option 1: https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Option 2: https://coolors.co/palette/dad7cd-a3b18a-588157-3a5a40-344e41
 
-## Build
+Option 3: Something really simple (black and white with a pop of color)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Features
 
-## Running unit tests
+## How to run the application locally
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. Clone the repository
+2. cd into the project directory (warbler-weather)
+3. Run `npm install`
+4. Run `ng serve`
+5. Open your browser and navigate to `http://localhost:4200/`
+6. Huzzah! 🎉
