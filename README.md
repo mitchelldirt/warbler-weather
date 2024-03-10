@@ -7,6 +7,8 @@
 - OpenWeather (alternative for current weather & geocoding)
 - https://www.weather.gov/documentation/services-web-api (alerts)
 - ngx-translate (localization)
+- ng2-charts (charting)
+- Google Fonts (fonts + icons)
 - Cypress (e2e testing)
 
 ## Color Palette
