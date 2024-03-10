@@ -1,0 +1,18 @@
+.settings-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.settings-button:hover {
+    background-color: rgba(154, 154, 154, 0.767);
+}
+
+.settings-icon {
+    width: 32px;
+    height: 32px;
+}
