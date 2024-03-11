@@ -6,6 +6,10 @@ import { CurrentWeatherComponent } from './current-weather/current-weather.compo
 import { HourlyWeatherComponent } from './hourly-weather/hourly-weather.component';
 import { DailyWeatherComponent } from './daily-weather/daily-weather.component';
 import { WeatherService } from './weather.service';
+import { Coordinates } from './coordinates';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Weather } from './weather';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +21,9 @@ import { WeatherService } from './weather.service';
     CurrentWeatherComponent,
     HourlyWeatherComponent,
     DailyWeatherComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   template: `
     <main>
@@ -24,32 +31,42 @@ import { WeatherService } from './weather.service';
         <h1>Warbler</h1>
         <app-settings class="settings"></app-settings>
       </header>
-      <form>
-        <div>
-          <button type="button">
-            <img src="../assets/location.svg" alt="get my location icon" />
-          </button>
+      <form
+        (ngSubmit)="onFormSubmit($event); (false)"
+        class="location-search-form"
+      >
+        <button (click)="getCurrentLocation()" type="button">
+          <img src="../assets/location.svg" alt="get my location icon" />
+        </button>
 
-          <input
-            placeholder="Search your Address, City, or Zip Code"
-            type="text"
-            #filter
+        <input
+          placeholder="Search your Address, City, or Zip Code"
+          type="text"
+          #filter
+        />
+        <button type="submit" (click)="getCoords(filter.value)">
+          <img
+            src="../assets/search.svg"
+            alt="search icon"
+            aria-hidden="true"
           />
-          <button (click)="getCoords(filter.value)" type="button">
-            <img
-              src="../assets/search.svg"
-              alt="search icon"
-              aria-hidden="true"
-            />
-          </button>
-        </div>
+        </button>
       </form>
-      <app-alerts></app-alerts>
-      <app-current-weather></app-current-weather>
-      <app-hourly-weather></app-hourly-weather>
-      <app-daily-weather></app-daily-weather>
-      <button>Current Provider (switch providers using this button)</button>
-      <p>{{ lat }}, {{ lon }}</p>
+      <div class="weather-info-container">
+        <app-alerts
+          *ngIf="currentCoords"
+          [coordinates]="currentCoords"
+        ></app-alerts>
+        <app-current-weather
+          [currentWeather]="weather?.current"
+        ></app-current-weather>
+        <app-hourly-weather
+          [hourlyWeather]="weather?.hourly"
+        ></app-hourly-weather>
+        <app-daily-weather [dailyWeather]="weather?.daily"></app-daily-weather>
+        <button>Current Provider (switch providers using this button)</button>
+        <p>{{ currentCoords?.lat ?? -1 }}, {{ currentCoords?.lon ?? -1 }}</p>
+      </div>
     </main>
 
     <router-outlet />
@@ -58,14 +75,63 @@ import { WeatherService } from './weather.service';
 })
 export class AppComponent {
   title = 'warbler-weather';
-  lat = 0;
-  lon = 0;
+  currentCoords: Coordinates | null = null;
+  weather: Weather | null = null;
+
+  onFormSubmit(event: Event) {
+    event.preventDefault();
+  }
+
+  constructor() {
+    this.currentCoords = {
+      lat: 41.881832,
+      lon: -87.623177,
+    };
+
+    this.getCurrentLocation();
+  }
+
+  async getCurrentLocation() {
+    try {
+      const position = await new Promise<GeolocationPosition>(
+        (resolve, reject) =>
+          navigator.geolocation.getCurrentPosition(resolve, reject)
+      );
+      this.currentCoords = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      };
+
+      this.getWeather();
+    } catch (error) {
+      console.error('Error getting current location:', error);
+      this.currentCoords = {
+        lat: 41.881832,
+        lon: -87.623177,
+      };
+    }
+  }
 
   weatherService: WeatherService = inject(WeatherService);
 
   async getCoords(text: string) {
     const coords = await this.weatherService.geocode(text);
-    this.lat = coords.lat ?? -1;
-    this.lon = coords.lon ?? -1;
+    this.currentCoords = {
+      lat: coords.lat ?? 41.881832,
+      lon: coords.lon ?? -87.623177,
+    };
+
+    this.getWeather();
+  }
+
+  async getWeather() {
+    if (!this.currentCoords) {
+      return;
+    }
+    const weather: Weather | null = await this.weatherService.getWeather(
+      this.currentCoords
+    );
+
+    this.weather = weather;
   }
 }

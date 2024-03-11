@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.first-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 1em;
+    color: gray;
+}
+
+.second-row {
+    display: flex;
+    gap: 3em;
+    padding: 2em;
+}
+
+.conditions {
+    display: flex;
+    gap: 1em;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.inner-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+}
+
+.inner-row:last-of-type {
+    border: none;
+}

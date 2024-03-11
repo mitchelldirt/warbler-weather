@@ -1,0 +1,34 @@
+.component-container {
+    display: flex;
+    justify-content: center;
+}
+
+.alerts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 90%;
+    max-width: 375px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.first-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5em;
+    gap: 1em;
+    text-align: center;
+}
+
+.second-line {
+    display: flex;
+    justify-content: center;
+    padding: .5em;
+    text-align: left;
+}
+
+.second-line>p {
+    width: 90%;
+}
