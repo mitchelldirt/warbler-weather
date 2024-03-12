@@ -7,7 +7,6 @@
 - OpenWeather (alternative for current weather & geocoding)
 - https://www.weather.gov/documentation/services-web-api (alerts)
 - ngx-translate (localization)
-- ng2-charts (charting)
 - Google Fonts (fonts + icons)
 - Cypress (e2e testing)
 
@@ -45,3 +44,5 @@ Option 3: Something really simple (black and white with a pop of color)
 ## "Wireframe"
 
 ![wireframe image](wireframe.png)
+
+https://blog.logrocket.com/a-guide-to-theming-in-css/

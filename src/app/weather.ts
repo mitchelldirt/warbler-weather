@@ -6,11 +6,12 @@ export interface Weather {
 
 export interface Current {
   time: string;
-  temp: number;
-  wind: number;
+  temp: string;
+  wind: string;
   humidity: number;
   condition: string;
   icon: string;
+  code: number;
 }
 
 export interface Hourly {
@@ -20,7 +21,7 @@ export interface Hourly {
 export interface Hour {
   time: string;
   icon: string;
-  temp: number;
+  temp: string;
   precipitation: number;
 }
 
@@ -29,9 +30,10 @@ export interface Daily {
 }
 
 export interface Day {
-  minTemp: number;
-  maxTemp: number;
+  minTemp: string;
+  maxTemp: string;
   date: string;
+  day: string;
   icon: string;
   condition: string;
   precipitation: number;

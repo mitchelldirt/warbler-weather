@@ -140,3 +140,58 @@ button {
     padding: 0;
     cursor: pointer;
 }
+
+/* Warbler Weather styles */
+/* Make data-theme variables for 
+- day (clear)
+- night (clear)
+- rain (rain, drizzle, sleet)
+- cloudy (clouds, rain, thunder, fog, mist, thundery... other thunder codes accompany snow or rain)
+- snowy (snow, freezing anything, hail)
+*/
+
+/* Utility color is used for the settings cog and alerts */
+:root {
+    --utility-color: #000000;
+    --text-color: #000;
+    --bg-color: #fff;
+}
+
+[data-theme="day"] {
+    --utility-color: #000000;
+    --text-color: #212121;
+    --bg-color: #FFFDE7;
+}
+
+[data-theme="night"] {
+    --utility-color: #00796B;
+    --text-color: #70aeab;
+    --bg-color: #212121;
+}
+
+[data-theme="rainy"] {
+    --utility-color: #000000;
+    --text-color: #09395b;
+    --bg-color: #BBDEFB;
+}
+
+[data-theme="cloudy"] {
+    --utility-color: #000000;
+    --text-color: #434343;
+    --bg-color: #CFD8DC;
+}
+
+[data-theme="snowy"] {
+    --utility-color: #000000;
+    --text-color: #cf4de7;
+    --bg-color: #D1C4E9;
+}
+
+/* Global styles */
+.text-var {
+    color: var(--text-color);
+}
+
+[data-theme="night"] .settings-icon {
+    filter: invert(19%) sepia(94%) saturate(4702%) hue-rotate(168deg) brightness(94%) contrast(105%) !important;
+}

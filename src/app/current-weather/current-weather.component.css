@@ -2,30 +2,37 @@
     display: flex;
     flex-direction: column;
     background-color: white;
+    border: 1px black solid;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 375px;
 }
 
 .first-row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0 1em;
-    color: gray;
+    padding: .5em .5em .2em .5em;
+    border-bottom: 1px solid gray;
 }
 
 .second-row {
     display: flex;
-    gap: 3em;
-    padding: 2em;
+    gap: 2em;
+    padding: .5em;
+    justify-content: space-between;
 }
 
 .conditions {
     display: flex;
-    gap: 1em;
+    align-items: center;
 }
 
 .info {
     display: flex;
     flex-direction: column;
+    width: 55%;
+    gap: .5em;
 }
 
 .inner-row {
@@ -37,4 +44,21 @@
 
 .inner-row:last-of-type {
     border: none;
+}
+
+/* Media Query for tablet */
+@media (min-width: 768px) {
+    .container {
+        max-width: 600px;
+        height: 130px;
+    }
+
+    .second-row {
+        height: 100%;
+    }
+
+    .info {
+        justify-content: center;
+        width: 40%;
+    }
 }

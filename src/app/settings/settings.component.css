@@ -9,10 +9,39 @@
 }
 
 .settings-button:hover {
-    background-color: rgba(154, 154, 154, 0.767);
+    transform: scale(1.1);
 }
 
 .settings-icon {
     width: 32px;
     height: 32px;
+}
+
+.settings-dropdown {
+    position: absolute;
+    top: 70px;
+    right: 40px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+}
+
+.settings-dropdown.show {
+    display: flex;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    height: 3.25em;
+    padding: 0 1em;
+}
+
+
+.dropdown-item:hover {
+    background-color: rgba(154, 154, 154, 0.767);
+    cursor: pointer;
 }

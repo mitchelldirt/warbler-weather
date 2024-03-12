@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: ` <div class="container" *ngIf="currentWeather">
     <div class="first-row">
-      <p>CURRENT WEATHER</p>
+      <p class="text-var">CURRENT WEATHER</p>
       <p>{{ currentWeather.time }}</p>
     </div>
     <div class="second-row">
@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
           [src]="'https://' + currentWeather.icon"
           [alt]="currentWeather.condition"
         />
-        <p class="temp">{{ currentWeather.temp }}°</p>
+        <p class="temp">{{ currentWeather.temp }}</p>
       </div>
       <div class="info">
         <div class="inner-row">
@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
         </div>
         <div class="inner-row">
           <p>Humidity</p>
-          <p>{{ currentWeather.humidity }}</p>
+          <p>{{ currentWeather.humidity }}%</p>
         </div>
         <div class="inner-row">
           <p>Conditions</p>
