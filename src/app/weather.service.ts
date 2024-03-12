@@ -21,7 +21,8 @@ export class WeatherService {
 
   async geocode(location: string) {
     const data = await fetch(
-      `${this.baseWeatherApiUrl}/search.json?key=${environment.weatherApiKey}&q=${location}`
+      `${this.baseWeatherApiUrl}/search.json?key=${environment.weatherApiKey}&q=${location}`,
+      { mode: 'cors' }
     );
 
     const results = (await data.json()) ?? [];
@@ -45,7 +46,9 @@ export class WeatherService {
   }
 
   private async getAlertsZone(lat: number, lon: number) {
-    const data = await fetch(`https://api.weather.gov/points/${lat},${lon}`);
+    const data = await fetch(`https://api.weather.gov/points/${lat},${lon}`, {
+      mode: 'cors',
+    });
     const results = (await data.json()) ?? null;
 
     if (results) {
@@ -61,7 +64,8 @@ export class WeatherService {
     const zone = await this.getAlertsZone(coordinates.lat, coordinates.lon);
 
     const data = await fetch(
-      `https://api.weather.gov/alerts/active?zone=${zone}`
+      `https://api.weather.gov/alerts/active?zone=${zone}`,
+      { mode: 'cors' }
     );
     const results = (await data.json()) ?? null;
 
@@ -93,7 +97,8 @@ export class WeatherService {
     units: 'imperial' | 'metric' | null = 'imperial'
   ): Promise<Weather | null> {
     const data = await fetch(
-      `${this.baseWeatherApiUrl}/forecast.json?key=${environment.weatherApiKey}&q=${coordinates.lat},${coordinates.lon}&days=6&aqi=no&alerts=no`
+      `${this.baseWeatherApiUrl}/forecast.json?key=${environment.weatherApiKey}&q=${coordinates.lat},${coordinates.lon}&days=6&aqi=no&alerts=no`,
+      { mode: 'cors' }
     );
 
     if (data.ok) {
