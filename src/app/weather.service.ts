@@ -15,7 +15,7 @@ import { Hour } from './weather';
   providedIn: 'root',
 })
 export class WeatherService {
-  readonly baseWeatherApiUrl = 'http://api.weatherapi.com/v1';
+  readonly baseWeatherApiUrl = 'https://api.weatherapi.com/v1';
 
   constructor() {}
 
