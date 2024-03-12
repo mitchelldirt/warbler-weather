@@ -8,26 +8,28 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: ` <div class="container" *ngIf="currentWeather">
     <div class="first-row">
-      <p class="text-var">CURRENT WEATHER</p>
-      <p>{{ currentWeather.time }}</p>
+      <h2 class="text-var">CURRENT WEATHER</h2>
+      <p class="bold">{{ currentWeather.time }}</p>
     </div>
     <div class="second-row">
       <div class="conditions">
         <img
+          width="64"
+          height="64"
           class="icon"
           [src]="'https://' + currentWeather.icon"
           [alt]="currentWeather.condition"
         />
-        <p class="temp">{{ currentWeather.temp }}</p>
+        <p class="temp bold">{{ currentWeather.temp }}</p>
       </div>
       <div class="info">
         <div class="inner-row">
           <p>Wind</p>
-          <p>{{ currentWeather.wind }}</p>
+          <p class="bold">{{ currentWeather.wind }}</p>
         </div>
         <div class="inner-row">
           <p>Humidity</p>
-          <p>{{ currentWeather.humidity }}%</p>
+          <p class="bold">{{ currentWeather.humidity }}%</p>
         </div>
         <div class="inner-row">
           <p>Conditions</p>

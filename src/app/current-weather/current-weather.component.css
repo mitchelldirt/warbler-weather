@@ -6,6 +6,8 @@
     border-radius: 5px;
     width: 90%;
     max-width: 375px;
+    min-width: 330px;
+    min-height: 110px;
 }
 
 .first-row {
@@ -35,6 +37,10 @@
     gap: .5em;
 }
 
+.temp {
+    font-size: 1.5em;
+}
+
 .inner-row {
     display: flex;
     flex-direction: row;
@@ -60,5 +66,9 @@
     .info {
         justify-content: center;
         width: 40%;
+    }
+
+    .temp {
+        font-size: 2em;
     }
 }

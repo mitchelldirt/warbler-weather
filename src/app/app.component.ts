@@ -52,12 +52,17 @@ import { Weather } from './weather';
           (click)="getCoords(filter.value)"
         >
           <img
+            width="20"
+            height="20"
             src="../assets/search.svg"
             alt="search icon"
             aria-hidden="true"
           />
         </button>
       </form>
+      <div class="error-message-container" *ngIf="errorMsg">
+        <p class="error-message">{{ errorMsg }}</p>
+      </div>
       <div class="weather-info-container">
         <app-alerts
           *ngIf="currentCoords"
@@ -83,6 +88,7 @@ export class AppComponent {
   weather: Weather | null = null;
   locationName: string | undefined = undefined;
   units: 'imperial' | 'metric' | null = null;
+  errorMsg: string | null = null;
 
   onFormSubmit(event: Event) {
     event.preventDefault();
@@ -141,6 +147,14 @@ export class AppComponent {
 
   async getCoords(text: string) {
     const coords = await this.weatherService.geocode(text);
+
+    if (!coords.lat || !coords.lon) {
+      this.setErrorMessage(true);
+      return;
+    } else {
+      this.setErrorMessage(false);
+    }
+
     this.currentCoords = {
       lat: coords.lat ?? 41.881832,
       lon: coords.lon ?? -87.623177,
@@ -162,17 +176,29 @@ export class AppComponent {
       this.units
     );
 
-    this.weather = weather;
+    if (weather === null) {
+      this.setErrorMessage(true);
+      return;
+    }
 
     if (weather) {
-      console.log(weather.current.condition);
-      console.log(document.documentElement.getAttribute('data-theme'));
+      this.weather = weather;
+      this.setErrorMessage(false);
       this.setColorTheme(
         weather.current.condition.trim(),
         weather.current.code
       );
-      console.log(document.documentElement.getAttribute('data-theme'));
     }
+  }
+
+  setErrorMessage(isShown: boolean) {
+    if (isShown) {
+      this.errorMsg =
+        'Error getting weather data, double check the spelling of your location and try again.';
+      return;
+    }
+
+    this.errorMsg = null;
   }
 
   toggleUnits() {

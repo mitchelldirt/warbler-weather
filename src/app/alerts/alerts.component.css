@@ -37,8 +37,9 @@
 
 .headline {
     font-weight: 700;
-    font-size: 1.0em;
+    font-size: .95em;
     color: var(--utility-color);
+    font-family: 'Lora', serif;
 }
 
 .instruction {

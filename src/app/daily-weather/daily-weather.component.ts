@@ -8,19 +8,21 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `<div class="container" *ngIf="dailyWeather">
     <div class="first-row">
-      <p class="text-var">DAILY WEATHER</p>
+      <h2 class="text-var">DAILY WEATHER</h2>
     </div>
     <div class="days-container">
       <div class="days-container">
         <div class="day-container" *ngFor="let day of dailyWeather.days">
           <div class="date-info">
-            <p>{{ day.day }}</p>
-            <p>{{ day.date }}</p>
+            <p class="bold">{{ day.day }}</p>
+            <p class="date">{{ day.date }}</p>
           </div>
 
           <div class="weather-info-container">
             <div class="weather-info">
               <img
+                width="64"
+                height="64"
                 class="icon"
                 [src]="'https://' + day.icon"
                 [alt]=""
@@ -32,12 +34,17 @@ import { CommonModule } from '@angular/common';
           </div>
 
           <div class="conditions-info">
-            <p>{{ day.condition }}</p>
+            <p class="bold">{{ day.condition }}</p>
           </div>
 
           <div class="precip-info">
-            <img src="../../assets/waterdrop.svg" alt="Precipitation Chance" />
-            <p>{{ day.precipitation }}%</p>
+            <img
+              width="20"
+              height="20"
+              src="../../assets/waterdrop.svg"
+              alt="Precipitation Chance"
+            />
+            <p class="precipitation">{{ day.precipitation }}%</p>
           </div>
         </div>
       </div>

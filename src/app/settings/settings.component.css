@@ -40,6 +40,10 @@
     padding: 0 1em;
 }
 
+.dropdown-item>p {
+    font-weight: 600;
+}
+
 
 .dropdown-item:hover {
     background-color: rgba(154, 154, 154, 0.767);

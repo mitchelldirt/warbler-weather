@@ -124,9 +124,6 @@ export class WeatherService {
       };
 
       const hourNow = new Date().getHours();
-      // TODO: If it's getting close to the end of the day, then we need to grab the next day's forecast as well
-
-      console.log('here');
       const hourly = result.forecast.forecastday[0].hour
         .slice(hourNow + 1, hourNow + 9)
         .filter((hour: ResponseHour) => hour.time !== '')
@@ -236,16 +233,8 @@ export class WeatherService {
     return (((fahrenheit - 32) * 5) / 9).toFixed(0) + '°C';
   }
 
-  convertToFahrenheit(celsius: number) {
-    return (celsius * 9) / 5 + 32 + '°F';
-  }
-
   convertToKilometersPerHour(mph: number) {
     return (mph * 1.60934).toFixed(0) + ' km/h';
-  }
-
-  convertToMilesPerHour(kph: number) {
-    return (kph / 1.60934).toFixed(0) + ' mph';
   }
 
   convertToImperialTime(metricTime: string) {

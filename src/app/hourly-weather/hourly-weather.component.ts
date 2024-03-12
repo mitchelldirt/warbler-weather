@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="container" *ngIf="hourlyWeather">
       <div class="first-row">
-        <p class="text-var">HOURLY WEATHER</p>
+        <h2 class="text-var">HOURLY WEATHER</h2>
       </div>
       <div class="hours-container">
         <div *ngFor="let hour of hourlyWeather.hours">
@@ -18,17 +18,27 @@ import { CommonModule } from '@angular/common';
               {{ truncateTime(hour.time) }}
               {{ hour.time.split(' ')[1] }}
             </p>
-            <p *ngIf="getScreenWidth() > 450">
+            <p class="time" *ngIf="getScreenWidth() > 450">
               {{ hour.time }}
             </p>
             <img
+              width="64"
+              height="64"
               class="icon"
               [src]="'https://' + hour.icon"
               [alt]=""
               aria-hidden="true"
             />
 
-            <p class="temp">{{ hour.temp }}</p>
+            <p class="temp bold">{{ hour.temp }}</p>
+            <div class="humidity-container">
+              <img
+                src="../../assets/waterdrop.svg"
+                alt="waterdrop"
+                aria-hidden="true"
+              />
+              <p class="humidity">{{ hour.precipitation }}%</p>
+            </div>
           </div>
         </div>
       </div>

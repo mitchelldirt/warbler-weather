@@ -6,6 +6,8 @@ h1 {
     font-size: 2em;
     margin: 0.67em 0;
     color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
 
 .header {
@@ -35,13 +37,28 @@ h1 {
     padding: 0.5em;
     border-radius: 5px;
     border: 1px solid black;
-    text-indent: 17px;
 }
 
 .search-icon {
     background: url('../assets/search.svg') no-repeat left, #fff;
     padding-left: 25px;
     background-size: 20px;
+}
+
+.error-message-container {
+    margin-bottom: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.error-message {
+    padding: 1em;
+    color: red;
+    background-color: white;
+    border: 1px solid black;
+    font-weight: 700;
+    font-size: 0.8em;
 }
 
 .weather-info-container {
@@ -59,4 +76,8 @@ app-alerts {
     justify-content: center;
     width: 100%;
     margin-bottom: 1em;
+}
+
+app-daily-weather {
+    margin-bottom: 0;
 }
