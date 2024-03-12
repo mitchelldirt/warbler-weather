@@ -1,3 +1,4 @@
 export const environment = {
-  weatherApiKey: '',
+  production: true,
+  weatherApiKey: import.meta.env['weatherApiKey'],
 };
