@@ -11,6 +11,7 @@ import {
   Forecastday,
 } from './forecast';
 import { Hour } from './weather';
+import { OpenForecast } from './open-forecast';
 
 @Injectable({
   providedIn: 'root',
@@ -95,16 +96,43 @@ export class WeatherService {
 
   async getWeather(
     coordinates: Coordinates,
-    units: 'imperial' | 'metric' | null = 'imperial'
+    units: 'imperial' | 'metric' | null = 'imperial',
+    currentWeatherProvider: 'weatherapi' | 'openweather' = 'weatherapi'
   ): Promise<Weather | null> {
     const data = await fetch(
       `${this.baseWeatherApiUrl}/forecast.json?key=${environment.weatherApiKey}&q=${coordinates.lat},${coordinates.lon}&days=6&aqi=no&alerts=no`,
       { mode: 'cors' }
     );
 
+    let openWeatherData;
+
+    if (currentWeatherProvider === 'openweather') {
+      openWeatherData = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${environment.openWeatherApiKey}`,
+        { mode: 'cors' }
+      );
+    }
+
     if (data.ok && units !== null) {
       const result: Forecast = await data.json();
-      const current = this.extractCurrentWeather(result, units);
+
+      let current;
+
+      if (
+        currentWeatherProvider === 'openweather' &&
+        openWeatherData &&
+        openWeatherData.ok
+      ) {
+        const currentWeatherResult: OpenForecast = await openWeatherData.json();
+        current = this.extractOpenWeatherCurrentWeather(
+          currentWeatherResult,
+          units,
+          result.current.condition.icon
+        );
+      } else {
+        current = this.extractCurrentWeather(result, units);
+      }
+
       const hourly = this.extractHourlyWeather(result, units);
       const daily = this.extractDailyWeather(result, units);
 
@@ -142,6 +170,53 @@ export class WeatherService {
       humidity: result.current.humidity,
       time: time,
       code: result.current.condition.code,
+    };
+  }
+
+  extractOpenWeatherCurrentWeather(
+    result: OpenForecast,
+    units: 'imperial' | 'metric',
+    icon: string
+  ) {
+    let wind: string;
+    let temp: string;
+    let time: string;
+
+    console.log(result);
+
+    if (units === 'metric') {
+      wind = this.convertToKilometersPerHour(result.wind.speed);
+      temp = this.convertToCelsius(result.main.temp);
+      time = new Date(result.dt * 1000).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+      });
+    } else {
+      wind = result.wind.speed.toFixed(0) + ' mph';
+      temp = result.main.temp.toFixed(0) + '°F';
+      time = new Date(result.dt * 1000).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+      });
+    }
+    let condition = result.weather[0].description;
+
+    if (result.weather[0].icon.includes('n') && result.weather[0].id === 800) {
+      condition = 'Clear';
+    }
+
+    if (result.weather[0].icon.includes('d') && result.weather[0].id === 800) {
+      condition = 'Sunny';
+    }
+
+    return {
+      temp: temp,
+      condition: condition,
+      icon: icon.split('//')[1],
+      wind: wind,
+      humidity: result.main.humidity,
+      time: time,
+      code: result.weather[0].id,
     };
   }
 

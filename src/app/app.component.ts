@@ -75,6 +75,31 @@ import { Weather } from './weather';
           [hourlyWeather]="weather?.hourly"
         ></app-hourly-weather>
         <app-daily-weather [dailyWeather]="weather?.daily"></app-daily-weather>
+        <h2 class="provider-header">Weather Provider</h2>
+        <div class="providers" *ngIf="currentWeatherProvider === 'weatherapi'">
+          <!--Dropdown or buttons to toggle between weather provider-->
+          <button class="active-provider provider-button" type="button">
+            WeatherAPI
+          </button>
+          <button
+            class="inactive-provider provider-button"
+            (click)="currentWeatherProvider = 'openweather'; getWeather()"
+          >
+            OpenWeather
+          </button>
+        </div>
+        <div class="providers" *ngIf="currentWeatherProvider === 'openweather'">
+          <!--Dropdown or buttons to toggle between weather provider-->
+          <button
+            class="inactive-provider provider-button"
+            (click)="currentWeatherProvider = 'weatherapi'; getWeather()"
+          >
+            WeatherAPI
+          </button>
+          <button class="active-provider provider-button" type="button">
+            OpenWeather
+          </button>
+        </div>
       </div>
     </main>
 
@@ -89,6 +114,7 @@ export class AppComponent {
   locationName: string | undefined = undefined;
   units: 'imperial' | 'metric' | null = null;
   errorMsg: string | null = null;
+  currentWeatherProvider: 'openweather' | 'weatherapi' = 'weatherapi';
 
   onFormSubmit(event: Event) {
     event.preventDefault();
@@ -97,6 +123,11 @@ export class AppComponent {
   constructor() {
     // check if the user has a location saved in local storage
     const localCoords = localStorage.getItem('coords');
+    const localProvider = localStorage.getItem('provider') ?? 'weatherapi';
+
+    if (localProvider === 'openweather' || localProvider === 'weatherapi') {
+      this.currentWeatherProvider = localProvider;
+    }
 
     if (localCoords) {
       this.currentCoords = JSON.parse(localCoords ?? '');
@@ -173,7 +204,8 @@ export class AppComponent {
     }
     const weather: Weather | null = await this.weatherService.getWeather(
       this.currentCoords,
-      this.units
+      this.units,
+      this.currentWeatherProvider
     );
 
     if (weather === null) {
@@ -189,6 +221,8 @@ export class AppComponent {
         weather.current.code
       );
     }
+
+    localStorage.setItem('provider', this.currentWeatherProvider);
   }
 
   setErrorMessage(isShown: boolean) {
@@ -218,16 +252,22 @@ export class AppComponent {
       return;
     }
 
-    const cloudyCodes = [1003, 1006, 1009, 1030, 1135, 1147];
+    const cloudyCodes = [
+      1003, 1006, 1009, 1030, 1135, 1147, 701, 711, 721, 731, 741, 751, 761,
+      762, 771, 781,
+    ];
 
     const snowyCodes = [
       1066, 1114, 1117, 1204, 1207, 1210, 1213, 1216, 1219, 1222, 1225, 1237,
-      1249, 1252, 1255, 1258, 1261, 1264, 1279, 1282,
+      1249, 1252, 1255, 1258, 1261, 1264, 1279, 1282, 600, 601, 602, 611, 612,
+      613, 615, 616, 620, 621, 622,
     ];
 
     const rainyCodes = [
       1063, 1069, 1072, 1087, 1150, 1153, 1168, 1171, 1180, 1183, 1186, 1189,
-      1192, 1195, 1198, 1201, 1240, 1243, 1246, 1273, 1276,
+      1192, 1195, 1198, 1201, 1240, 1243, 1246, 1273, 1276, 200, 201, 202, 210,
+      211, 212, 221, 230, 231, 232, 300, 301, 302, 310, 311, 312, 313, 314, 321,
+      500, 501, 502, 503, 504, 511, 520, 521, 522, 531,
     ];
 
     if (cloudyCodes.includes(weatherCode)) {

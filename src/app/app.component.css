@@ -79,6 +79,34 @@ app-alerts {
     margin-bottom: 1em;
 }
 
-app-daily-weather {
-    margin-bottom: 0;
+.providers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.active-provider {
+    font-weight: bold;
+    cursor: default;
+
+}
+
+.inactive-provider {
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.provider-header {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.provider-button {
+    background-color: #fff;
+    border: 1px solid black;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    border-radius: 5px;
 }

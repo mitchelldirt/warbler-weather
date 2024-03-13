@@ -35,11 +35,13 @@ Option 3: Something really simple (black and white with a pop of color)
 ## How to run the application locally
 
 1. Clone the repository
-2. cd into the project directory (warbler-weather)
+2. cd into the root directory
 3. Run `npm install`
-4. Run `ng serve`
-5. Open your browser and navigate to `http://localhost:4200/`
-6. Huzzah! 🎉
+4. Run `ng generate environments`
+5. Fill out `environment.development.ts` with your WeatherAPI key and OpenWeather API key. The format can be found in `environment.ts`
+6. Run `ng serve`
+7. Open your browser and navigate to `http://localhost:4200/`
+8. Huzzah! 🎉
 
 ## "Wireframe"
 
