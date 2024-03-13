@@ -182,8 +182,6 @@ export class WeatherService {
     let temp: string;
     let time: string;
 
-    console.log(result);
-
     if (units === 'metric') {
       wind = this.convertToKilometersPerHour(result.wind.speed);
       temp = this.convertToCelsius(result.main.temp);

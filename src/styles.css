@@ -220,6 +220,7 @@ body,
 app-root,
 main {
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 main {

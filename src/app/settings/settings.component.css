@@ -24,18 +24,20 @@
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
-    display: none;
     flex-direction: column;
+    transform: scale(0);
+    transition: transform 0.3s ease-in-out;
 }
 
 .settings-dropdown.show {
-    display: flex;
+    transform: scale(1);
 }
 
 .dropdown-item {
     display: flex;
     align-items: center;
     gap: 1em;
+    width: 100%;
     height: 3.25em;
     padding: 0 13px;
 }
@@ -56,4 +58,7 @@ a {
     color: inherit;
     font-size: inherit;
     line-height: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    height: 43.33px !important;
 }

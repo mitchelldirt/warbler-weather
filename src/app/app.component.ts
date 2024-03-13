@@ -80,7 +80,12 @@ import { Title } from '@angular/platform-browser';
         <h2 class="provider-header text-var" i18n>Weather Provider</h2>
         <div class="providers" *ngIf="currentWeatherProvider === 'weatherapi'">
           <!--Dropdown or buttons to toggle between weather provider-->
-          <button class="active-provider provider-button" type="button" i18n>
+          <button
+            disabled
+            class="active-provider provider-button"
+            type="button"
+            i18n
+          >
             WeatherAPI
           </button>
           <button
@@ -100,7 +105,12 @@ import { Title } from '@angular/platform-browser';
           >
             WeatherAPI
           </button>
-          <button class="active-provider provider-button" type="button" i18n>
+          <button
+            disabled
+            class="active-provider provider-button"
+            type="button"
+            i18n
+          >
             OpenWeather
           </button>
         </div>
