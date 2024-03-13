@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="container" *ngIf="hourlyWeather">
       <div class="first-row">
-        <h2 class="text-var">HOURLY WEATHER</h2>
+        <h2 class="text-var" i18n>HOURLY WEATHER</h2>
       </div>
       <div class="hours-container">
         <div *ngFor="let hour of hourlyWeather.hours">

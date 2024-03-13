@@ -20,6 +20,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
     </button>
     <div class="settings-dropdown">
       <button
+        i18n-label
         aria-label="Settings"
         (click)="toggleDropdownVisibility()"
         (click)="changeUnitsClick()"
@@ -30,10 +31,11 @@ import { Component, Output, EventEmitter } from '@angular/core';
           width="24"
           height="24"
           src="../../assets/unit.svg"
+          i18n-alt
           alt="Button to represent units of measurement"
           aria-hidden="true"
         />
-        <p>Change Units</p>
+        <p i18n>Change Units</p>
       </button>
       <button
         class="dropdown-item"
@@ -45,10 +47,25 @@ import { Component, Output, EventEmitter } from '@angular/core';
           width="24"
           height="24"
           src="../assets/location.svg"
+          i18n-alt
           alt="get my location icon"
         />
-        <p>Get current location</p>
+        <p i18n>Get current location</p>
       </button>
+      <a
+        i18n-href
+        href="https://fr.warbler.mitchellmudd.dev"
+        class="dropdown-item"
+      >
+        <img
+          width="24"
+          height="24"
+          src="../assets/translate.svg"
+          i18n-alt
+          alt="Translate to french, traduire en français"
+        />
+        <p i18n>Français</p>
+      </a>
     </div>
   `,
   styleUrl: './settings.component.css',

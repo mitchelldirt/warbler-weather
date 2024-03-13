@@ -10,6 +10,7 @@ import { Coordinates } from './coordinates';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Weather } from './weather';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,7 @@ import { Weather } from './weather';
   template: `
     <main>
       <header class="header">
-        <h1>WARBLER 🪶</h1>
+        <h1 i18n>WARBLER 🪶</h1>
         <app-settings
           (changeUnits)="toggleUnits()"
           (getCurrentLocation)="getCurrentLocation()"
@@ -40,6 +41,7 @@ import { Weather } from './weather';
         class="location-search-form"
       >
         <input
+          i18n-placeholder
           placeholder="Search your Address, City, or Zip Code"
           type="text"
           value="{{ locationName }}"
@@ -75,15 +77,16 @@ import { Weather } from './weather';
           [hourlyWeather]="weather?.hourly"
         ></app-hourly-weather>
         <app-daily-weather [dailyWeather]="weather?.daily"></app-daily-weather>
-        <h2 class="provider-header">Weather Provider</h2>
+        <h2 class="provider-header text-var" i18n>Weather Provider</h2>
         <div class="providers" *ngIf="currentWeatherProvider === 'weatherapi'">
           <!--Dropdown or buttons to toggle between weather provider-->
-          <button class="active-provider provider-button" type="button">
+          <button class="active-provider provider-button" type="button" i18n>
             WeatherAPI
           </button>
           <button
             class="inactive-provider provider-button"
             (click)="currentWeatherProvider = 'openweather'; getWeather()"
+            i18n
           >
             OpenWeather
           </button>
@@ -93,10 +96,11 @@ import { Weather } from './weather';
           <button
             class="inactive-provider provider-button"
             (click)="currentWeatherProvider = 'weatherapi'; getWeather()"
+            i18n
           >
             WeatherAPI
           </button>
-          <button class="active-provider provider-button" type="button">
+          <button class="active-provider provider-button" type="button" i18n>
             OpenWeather
           </button>
         </div>
@@ -121,6 +125,8 @@ export class AppComponent {
   }
 
   constructor() {
+    const titleService = inject(Title);
+    titleService.setTitle($localize`Warbler Weather`);
     // check if the user has a location saved in local storage
     const localCoords = localStorage.getItem('coords');
     const localProvider = localStorage.getItem('provider') ?? 'weatherapi';
@@ -227,8 +233,7 @@ export class AppComponent {
 
   setErrorMessage(isShown: boolean) {
     if (isShown) {
-      this.errorMsg =
-        'Error getting weather data, double check the spelling of your location and try again.';
+      this.errorMsg = $localize`Error getting weather data, double check the spelling of your location and try again.`;
       return;
     }
 

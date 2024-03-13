@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `<div class="container" *ngIf="dailyWeather">
     <div class="first-row">
-      <h2 class="text-var">DAILY WEATHER</h2>
+      <h2 class="text-var" i18n>DAILY WEATHER</h2>
     </div>
     <div class="days-container">
       <div class="days-container">

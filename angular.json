@@ -7,12 +7,19 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "fr": "messages.fr.xlf"
+        }
+      },
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "localize": true,
             "outputPath": "dist/warbler-weather",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -48,6 +55,9 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "fr": {
+              "localize": ["fr"]
             }
           },
           "defaultConfiguration": "production"
@@ -60,6 +70,9 @@
             },
             "development": {
               "buildTarget": "warbler-weather:build:development"
+            },
+            "fr": {
+              "buildTarget": "warbler-weather:build:development,fr"
             }
           },
           "defaultConfiguration": "development"
