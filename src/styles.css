@@ -216,9 +216,16 @@ button {
 
 /* Global styles */
 html,
+body,
+app-root,
 main {
-    height: 100%;
+    box-sizing: border-box;
+}
+
+main {
     padding-bottom: 2em;
+    min-height: 100vh;
+
 }
 
 h2 {
