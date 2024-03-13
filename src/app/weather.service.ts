@@ -102,37 +102,75 @@ export class WeatherService {
       { mode: 'cors' }
     );
 
-    if (data.ok) {
+    if (data.ok && units !== null) {
       const result: Forecast = await data.json();
-      let wind: string;
-      let temp: string;
-      let time: string;
+      const current = this.extractCurrentWeather(result, units);
+      const hourly = this.extractHourlyWeather(result, units);
+      const daily = this.extractDailyWeather(result, units);
 
-      if (units === 'metric') {
-        wind = this.convertToKilometersPerHour(result.current.wind_mph);
-        temp = this.convertToCelsius(result.current.temp_f);
-        time = result.location.localtime.split(' ')[1];
-      } else {
-        wind = result.current.wind_mph.toFixed(0) + ' mph';
-        temp = result.current.temp_f.toFixed(0) + '°F';
-        let metricTime = result.location.localtime.split(' ')[1];
-        time = this.convertToImperialTime(metricTime);
-      }
-
-      const current: Current = {
-        temp: temp,
-        condition: result.current.condition.text,
-        icon: result.current.condition.icon.split('//')[1],
-        wind: wind,
-        humidity: result.current.humidity,
-        time: time,
-        code: result.current.condition.code,
+      return {
+        current,
+        hourly: { hours: hourly.hours },
+        daily: { days: daily.days },
       };
+    }
 
-      const hourNow = new Date().getHours();
-      const hourly = result.forecast.forecastday[0].hour
-        .slice(hourNow + 1, hourNow + 9)
-        .filter((hour: ResponseHour) => hour.time !== '')
+    return null;
+  }
+
+  extractCurrentWeather(result: Forecast, units: 'imperial' | 'metric') {
+    let wind: string;
+    let temp: string;
+    let time: string;
+
+    if (units === 'metric') {
+      wind = this.convertToKilometersPerHour(result.current.wind_mph);
+      temp = this.convertToCelsius(result.current.temp_f);
+      time = result.location.localtime.split(' ')[1];
+    } else {
+      wind = result.current.wind_mph.toFixed(0) + ' mph';
+      temp = result.current.temp_f.toFixed(0) + '°F';
+      let metricTime = result.location.localtime.split(' ')[1];
+      time = this.convertToImperialTime(metricTime);
+    }
+
+    return {
+      temp: temp,
+      condition: result.current.condition.text,
+      icon: result.current.condition.icon.split('//')[1],
+      wind: wind,
+      humidity: result.current.humidity,
+      time: time,
+      code: result.current.condition.code,
+    };
+  }
+
+  extractHourlyWeather(result: Forecast, units: 'imperial' | 'metric') {
+    const hourNow = new Date().getHours();
+    const hourly = result.forecast.forecastday[0].hour
+      .slice(hourNow + 1, hourNow + 9)
+      .filter((hour: ResponseHour) => hour.time !== '')
+      .map((hour: ResponseHour): Hour => {
+        if (units === 'metric') {
+          return {
+            time: hour.time.split(' ')[1],
+            icon: hour.condition.icon.split('//')[1],
+            temp: this.convertToCelsius(hour.temp_f),
+            precipitation: hour.chance_of_rain,
+          };
+        }
+
+        return {
+          time: this.convertToImperialTime(hour.time.split(' ')[1]),
+          icon: hour.condition.icon.split('//')[1],
+          temp: Number(hour.temp_f.toFixed(0)) + '°F',
+          precipitation: hour.chance_of_rain,
+        };
+      });
+
+    if (hourNow + 9 > 24) {
+      const nextDay = result.forecast.forecastday[1].hour
+        .slice(0, 9 - (24 - hourNow))
         .map((hour: ResponseHour): Hour => {
           if (units === 'metric') {
             return {
@@ -151,80 +189,56 @@ export class WeatherService {
           };
         });
 
-      if (hourNow + 9 > 24) {
-        const nextDay = result.forecast.forecastday[1].hour
-          .slice(0, 9 - (24 - hourNow))
-          .map((hour: ResponseHour): Hour => {
-            if (units === 'metric') {
-              return {
-                time: hour.time.split(' ')[1],
-                icon: hour.condition.icon.split('//')[1],
-                temp: this.convertToCelsius(hour.temp_f),
-                precipitation: hour.chance_of_rain,
-              };
-            }
+      hourly.push(...nextDay);
+    }
 
-            return {
-              time: this.convertToImperialTime(hour.time.split(' ')[1]),
-              icon: hour.condition.icon.split('//')[1],
-              temp: Number(hour.temp_f.toFixed(0)) + '°F',
-              precipitation: hour.chance_of_rain,
-            };
-          });
+    return { hours: hourly };
+  }
 
-        hourly.push(...nextDay);
-      }
+  extractDailyWeather(result: Forecast, units: 'imperial' | 'metric') {
+    const daily = result.forecast.forecastday
+      .slice(1)
+      .map((day: Forecastday): Day => {
+        const dayName = new Date(day.date)
+          .toLocaleString('en-US', {
+            weekday: 'long',
+          })
+          .slice(0, 3)
+          .toUpperCase();
 
-      const daily = result.forecast.forecastday
-        .slice(1)
-        .map((day: Forecastday): Day => {
-          const dayName = new Date(day.date)
-            .toLocaleString('en-US', {
-              weekday: 'long',
-            })
-            .slice(0, 3)
-            .toUpperCase();
-
-          // grab the month/day from day.date formatted as MM/DD
-          const monthDay = new Date(day.date).toLocaleString(
-            units === 'imperial' ? 'en-US' : 'en-UK',
-            {
-              month: 'numeric',
-              day: 'numeric',
-            }
-          );
-
-          if (units === 'metric') {
-            return {
-              minTemp: this.convertToCelsius(day.day.mintemp_f).split('°')[0],
-              maxTemp: this.convertToCelsius(day.day.maxtemp_f).split('°')[0],
-              date: monthDay,
-              day: dayName,
-              icon: day.day.condition.icon.split('//')[1],
-              condition: day.day.condition.text,
-              precipitation: day.day.daily_chance_of_rain,
-            };
+        // grab the month/day from day.date formatted as MM/DD
+        const monthDay = new Date(day.date).toLocaleString(
+          units === 'imperial' ? 'en-US' : 'en-UK',
+          {
+            month: 'numeric',
+            day: 'numeric',
           }
+        );
 
+        if (units === 'metric') {
           return {
-            minTemp: day.day.mintemp_f.toFixed(0),
-            maxTemp: day.day.maxtemp_f.toFixed(0),
+            minTemp: this.convertToCelsius(day.day.mintemp_f).split('°')[0],
+            maxTemp: this.convertToCelsius(day.day.maxtemp_f).split('°')[0],
             date: monthDay,
             day: dayName,
             icon: day.day.condition.icon.split('//')[1],
             condition: day.day.condition.text,
             precipitation: day.day.daily_chance_of_rain,
           };
-        });
+        }
 
-      return {
-        current,
-        hourly: { hours: hourly },
-        daily: { days: daily },
-      };
-    }
+        return {
+          minTemp: day.day.mintemp_f.toFixed(0),
+          maxTemp: day.day.maxtemp_f.toFixed(0),
+          date: monthDay,
+          day: dayName,
+          icon: day.day.condition.icon.split('//')[1],
+          condition: day.day.condition.text,
+          precipitation: day.day.daily_chance_of_rain,
+        };
+      });
 
-    return null;
+    return { days: daily };
   }
 
   // If the user chooses OpenWeather then use this in tandem with the getWeather
