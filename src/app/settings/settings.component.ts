@@ -14,7 +14,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
         width="32"
         height="32"
         class="settings-icon"
-        src="../../assets/settings.svg"
+        src="assets/settings.svg"
         alt=""
       />
     </button>
@@ -30,7 +30,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
         <img
           width="24"
           height="24"
-          src="../../assets/unit.svg"
+          src="assets/unit.svg"
           i18n-alt
           alt="Button to represent units of measurement"
           aria-hidden="true"
@@ -46,7 +46,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
         <img
           width="24"
           height="24"
-          src="../assets/location.svg"
+          src="assets/location.svg"
           i18n-alt
           alt="get my location icon"
         />
@@ -60,7 +60,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
         <img
           width="24"
           height="24"
-          src="../assets/translate.svg"
+          src="assets/translate.svg"
           i18n-alt
           alt="Translate to french, traduire en français"
         />

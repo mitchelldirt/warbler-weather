@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
             <img
               width="20"
               height="20"
-              src="../../assets/waterdrop.svg"
+              src="assets/waterdrop.svg"
               alt="Precipitation Chance"
             />
             <p class="precipitation">{{ day.precipitation }}%</p>

@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
             <p class="temp bold">{{ hour.temp }}</p>
             <div class="humidity-container">
               <img
-                src="../../assets/waterdrop.svg"
+                src="assets/waterdrop.svg"
                 alt="waterdrop"
                 aria-hidden="true"
               />

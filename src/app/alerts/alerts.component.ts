@@ -23,13 +23,13 @@ import { CommonModule } from '@angular/common';
           <div class="first-line">
             <img
               *ngIf="alert.severity === 'Moderate'"
-              src="../../assets/advisory.svg"
+              src="assets/advisory.svg"
               alt="warning icon"
               aria-hidden="true"
             />
             <img
               *ngIf="alert.severity !== 'Moderate'"
-              src="../../assets/alert.svg"
+              src="assets/alert.svg"
               alt="warning icon"
               aria-hidden="true"
             />

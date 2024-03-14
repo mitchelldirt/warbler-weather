@@ -52,15 +52,7 @@ import { Title } from '@angular/platform-browser';
           style="display: none;"
           type="submit"
           (click)="getCoords(filter.value)"
-        >
-          <img
-            width="20"
-            height="20"
-            src="../assets/search.svg"
-            alt="search icon"
-            aria-hidden="true"
-          />
-        </button>
+        ></button>
       </form>
       <div class="error-message-container" *ngIf="errorMsg">
         <p class="error-message">{{ errorMsg }}</p>
