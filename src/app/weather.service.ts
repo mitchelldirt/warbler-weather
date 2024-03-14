@@ -133,6 +133,7 @@ export class WeatherService {
         current = this.extractCurrentWeather(result, units);
       }
 
+      console.log('hourly below');
       const hourly = this.extractHourlyWeather(result, units);
       const daily = this.extractDailyWeather(result, units);
 
@@ -230,6 +231,13 @@ export class WeatherService {
   }
 
   extractHourlyWeather(result: Forecast, units: 'imperial' | 'metric') {
+    if (result.location.localtime.split(' ')[1][0] !== '0') {
+      result.location.localtime =
+        result.location.localtime.slice(0, 11) +
+        '0' +
+        result.location.localtime.slice(11);
+    }
+
     const hourNow = new Date(result.location.localtime).getHours();
     const hourly = result.forecast.forecastday[0].hour
       .slice(hourNow + 1, hourNow + 9)
