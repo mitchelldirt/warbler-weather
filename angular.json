@@ -10,7 +10,7 @@
       "i18n": {
         "sourceLocale": "en-US",
         "locales": {
-          "fr": "src/locale/messages.fr.xlf"
+          "fr": "./messages.fr.xlf"
         }
       },
       "sourceRoot": "src",
