@@ -8,6 +8,7 @@ const setEnv = () => {
   // `environment.ts` file structure
   const envConfigFile = `export const environment = {
     weatherApiKey: '${process.env["weatherApiKey"]}',
+    openWeatherApiKey: '${process.env["openWeatherApiKey"]}',
     production: true,
     };
     `;
