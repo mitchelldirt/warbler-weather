@@ -249,6 +249,7 @@ export class AppComponent {
   }
 
   setColorTheme(condition: string, weatherCode: number) {
+    console.log(weatherCode, condition);
     if (condition === 'Clear') {
       document.documentElement.setAttribute('data-theme', 'night');
       return;
@@ -261,7 +262,7 @@ export class AppComponent {
 
     const cloudyCodes = [
       1003, 1006, 1009, 1030, 1135, 1147, 701, 711, 721, 731, 741, 751, 761,
-      762, 771, 781,
+      762, 771, 781, 801, 802, 803, 804,
     ];
 
     const snowyCodes = [
