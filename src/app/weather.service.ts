@@ -182,20 +182,31 @@ export class WeatherService {
     let temp: string;
     let time: string;
 
+    console.log(new Date(result.dt * 1000 + result.timezone * 1000)); // plus
+
+    const date = new Date();
+    const localTime = date.getTime();
+    const utcTime = localTime + date.getTimezoneOffset() * 60000; // Convert local time to UTC
+    const requestedCityTime = utcTime + result.timezone * 1000; // Add the requested timezone offset to UTC
+    const requestedCityDate = new Date(requestedCityTime);
+    time = requestedCityDate
+      .toLocaleTimeString('en-UK', {
+        hour: 'numeric',
+        minute: 'numeric',
+      })
+      .split(' ')[0];
     if (units === 'metric') {
       wind = this.convertToKilometersPerHour(result.wind.speed);
       temp = this.convertToCelsius(result.main.temp);
-      time = new Date(result.dt * 1000).toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-      });
+
+      // time = new Date(result.dt * 1000).toLocaleTimeString('en-US', {
+      //   hour: 'numeric',
+      //   minute: 'numeric',
+      // });
     } else {
       wind = result.wind.speed.toFixed(0) + ' mph';
       temp = result.main.temp.toFixed(0) + '°F';
-      time = new Date(result.dt * 1000).toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-      });
+      time = this.convertToImperialTime(time);
     }
     let condition = result.weather[0].description;
 
@@ -219,7 +230,7 @@ export class WeatherService {
   }
 
   extractHourlyWeather(result: Forecast, units: 'imperial' | 'metric') {
-    const hourNow = new Date().getHours();
+    const hourNow = new Date(result.location.localtime).getHours();
     const hourly = result.forecast.forecastday[0].hour
       .slice(hourNow + 1, hourNow + 9)
       .filter((hour: ResponseHour) => hour.time !== '')
@@ -312,14 +323,6 @@ export class WeatherService {
       });
 
     return { days: daily };
-  }
-
-  // If the user chooses OpenWeather then use this in tandem with the getWeather
-  // function. Not implemented yet.
-
-  // First callthe getWeather function. Then replace the property current with the result of the API call to the OpenWeather API
-  async getOpenWeather(coordinates: Coordinates): Promise<Weather | null> {
-    return null;
   }
 
   convertToCelsius(fahrenheit: number) {
