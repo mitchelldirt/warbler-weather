@@ -10,8 +10,7 @@
       "i18n": {
         "sourceLocale": "en-US",
         "locales": {
-          "fr": { "translation": "./messages.fr.xlf", "baseHref": "/fr/" },
-          "en-US": { "translation": "./messages.xlf", "baseHref": "/en-US/" }
+          "fr": { "translation": "./messages.fr.xlf", "baseHref": "/fr/" }
         }
       },
       "sourceRoot": "src",
