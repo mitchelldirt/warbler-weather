@@ -41,7 +41,7 @@ h1 {
 }
 
 .search-icon {
-    background: url('assets/search.svg') no-repeat left, #fff;
+    background: url('../assets/search.svg') no-repeat left, #fff;
     padding-left: 25px;
     background-size: 20px;
 }
