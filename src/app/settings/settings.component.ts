@@ -54,7 +54,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
       </button>
       <a
         i18n-href
-        href="https://fr.warbler.mitchellmudd.dev"
+        href="https://warbler.mitchellmudd.dev/fr"
         class="dropdown-item"
       >
         <img
