@@ -11,7 +11,7 @@
         "sourceLocale": "en-US",
         "locales": {
           "fr": { "translation": "./messages.fr.xlf", "baseHref": "/fr/" },
-          "en": { "translation": "./messages.xlf", "baseHref": "/en-US/" }
+          "en-US": { "translation": "./messages.xlf", "baseHref": "/en-US/" }
         }
       },
       "sourceRoot": "src",
